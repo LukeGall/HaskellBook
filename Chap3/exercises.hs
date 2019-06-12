@@ -1,3 +1,5 @@
+module Chapter3 where
+
 ex1 :: Bool -> Bool -> Bool
 ex1 x y = x && not y || not x && y
 
