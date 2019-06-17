@@ -57,7 +57,7 @@ module Pictures where
   -- Small black and white pictures.
   black :: Picture
   black = invertColour white
-  
+
   sb, sw :: Picture
   
   sb = ["##","##"]

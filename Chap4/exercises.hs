@@ -1,4 +1,5 @@
 module Chapter4 where
+import Pictures
 
 
 maxThree :: Integer -> Integer -> Integer -> Integer
@@ -124,4 +125,70 @@ zeroFun n = aux n
             | x == 0 = False
             | f x == 0 = True  
             | otherwise = aux (x-1)
+
+blackSquares :: Integer -> Picture
+blackSquares n
+    | n <= 1 = black
+    | otherwise = black `beside` blackSquares (n-1)
+
+whiteSquares :: Integer -> Picture
+whiteSquares n
+    | n <= 1 = white
+    | otherwise = white `beside` whiteSquares (n-1)
+
+blackWhite :: Integer -> Picture
+blackWhite n
+    | n <= 1 = black
+    | otherwise = black `beside` whiteBlack (n-1)
+
+whiteBlack :: Integer -> Picture
+whiteBlack n
+    | n <= 1 = white
+    | otherwise = white `beside` blackWhite (n-1)
+
+blackChess :: Integer -> Integer -> Picture
+blackChess n m
+    | n <= 1 = blackWhite m
+    | otherwise = blackWhite m `above` whiteChess (n-1) m
+
+whiteChess :: Integer -> Integer -> Picture
+whiteChess n m
+    | n <= 1 = whiteBlack m
+    | otherwise = whiteBlack m `above` blackChess (n-1) m
+
+column :: Picture -> Integer -> Picture
+column p n 
+    | n <= 1 = p
+    | otherwise = p `above` column p (n-1)
+
+leftDiagonal :: Integer -> Picture
+leftDiagonal n = aux n n
+    where
+        aux :: Integer -> Integer -> Picture
+        aux pos len 
+            | pos <= 1 = black `beside` whiteSquares (len-pos) 
+            | pos == len = aux (pos-1) len `above` ( whiteSquares (pos - 1) `beside` black) 
+            | otherwise = aux (pos-1) len `above` ( whiteSquares (pos - 1) `beside` black `beside` whiteSquares (len-pos) ) 
+
+
+remainder :: Integer -> Integer -> Integer
+divide :: Integer -> Integer -> Integer
+
+remainder m n 
+    | m < n = m
+    | otherwise = remainder (m-n) n
+
+divide m n
+    | m < n = 0
+    | otherwise = 1 + divide (m-n) n
+
+commonFactors :: Integer -> Integer -> Integer
+commonFactors x y = aux m n
+    where
+        m = max x y
+        n = min x y
+        aux :: Integer -> Integer -> Integer
+        aux i j 
+            | (remainder i j) == 0 = j
+            | otherwise = commonFactors (divide i j) (remainder i j)
 
